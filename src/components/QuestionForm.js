@@ -17,9 +17,31 @@ function QuestionForm(props) {
     });
   }
 
+  const{prompt,answer1,answer2,answer3,answer4,correctIndex} = formData
+  // console.log(prompt,answer1,answer2,answer3,answer4,correctIndex)
+
+  const answers = [answer1,answer2,answer3,answer4] 
+  // console.log(answers)
+  const newQuestion = {prompt:prompt, 
+    answers:answers, 
+    correctIndex:correctIndex
+  }
+  // console.log(newQuestion)
+
+
   function handleSubmit(event) {
     event.preventDefault();
-    console.log(formData);
+    // console.log(formData);
+
+    fetch("http://localhost:4000/questions", {
+      method:"POST",
+      headers: {
+        "Content-Type":"application/json"
+      },
+      body: JSON.stringify(newQuestion),
+    })
+    .then((res) => res.json())
+    .then((newQ) => props.onQuestsupdate(newQ))
   }
 
   return (
